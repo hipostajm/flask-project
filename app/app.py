@@ -1,18 +1,12 @@
 from flask import Flask, redirect, request, Response
 import json
 
-with open("../data/users.json", 'r') as file:
+with open("./app/users.json", 'r') as file:
     file = json.load(file)
 
 free_ids = []
 
 app = Flask(__name__)
-
-
-@app.get("/")
-def main():
-    return redirect('/users')
-
 
 @app.get("/users")
 @app.route("/users/<id>", methods = ['GET'])
@@ -54,9 +48,8 @@ def patch_users(id: int):
 @app.route("/users/<id>", methods=["PUT"])
 def put_users(id):
     data: dict = request.get_json()
-    
     if int(id) in [obj["id"] for obj in file]:
-        return value_change_in_file(("name","lastname"), data, id)
+        return value_change_in_file(("name","lastname"), data, int(id))
     else:
         file.append({"id": id, "name": data["name"], "lastname": data["lastname"]})
         return Response(status=204)
