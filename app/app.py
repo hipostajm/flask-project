@@ -8,6 +8,13 @@ free_ids = []
 
 app = Flask(__name__)
 
+def set_file(value):
+    global file
+    file = value
+
+def get_file():
+    return file
+
 @app.get("/users")
 @app.route("/users/<id>", methods = ['GET'])
 def users(id: int = None):
